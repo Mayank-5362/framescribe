@@ -22,3 +22,6 @@ backend/temp/*
 !backend/uploads/.gitkeep
 !backend/outputs/.gitkeep
 !backend/temp/.gitkeep
+
+# Local whisper.cpp binaries/models (downloaded in Docker on deploy)
+backend/whispercpp/
