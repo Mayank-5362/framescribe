@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: framescribe-backend
+    env: docker
+    plan: free
+    dockerfilePath: backend/Dockerfile
+    dockerContext: .
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://your-vercel-domain.vercel.app
+      - key: WHISPER_CPP_THREADS
+        value: "2"
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_BUCKET
+        sync: false
+      - key: SUPABASE_INPUT_PREFIX
+        value: inputs
+      - key: SUPABASE_OUTPUT_PREFIX
+        value: outputs
+      - key: SUPABASE_SIGNED_UPLOAD_EXPIRES_IN
+        value: "900"
+      - key: SUPABASE_SIGNED_URL_EXPIRES_IN
+        value: "3600"
+      - key: SUPABASE_DELETE_INPUTS
+        value: "true"

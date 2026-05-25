@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.env
+
+# Node
+node_modules/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# App data
+backend/uploads/*
+backend/outputs/*
+backend/temp/*
+!backend/uploads/.gitkeep
+!backend/outputs/.gitkeep
+!backend/temp/.gitkeep

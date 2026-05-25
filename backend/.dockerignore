@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+uploads/
+outputs/
+temp/
+.env
+.git/
+.vscode/

@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - WHISPER_MODEL=tiny
+      - CORS_ORIGINS=http://localhost:5173
+    volumes:
+      - uploads_data:/app/uploads
+      - outputs_data:/app/outputs
+      - temp_data:/app/temp
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+volumes:
+  uploads_data:
+  outputs_data:
+  temp_data:
