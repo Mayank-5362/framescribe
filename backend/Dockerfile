@@ -11,17 +11,20 @@ RUN apt-get update \
 		wget \
 		ca-certificates \
 		libgomp1 \
+		git \
+		build-essential \
+		cmake \
 	&& rm -rf /var/lib/apt/lists/*
 
-ARG WHISPER_CPP_VERSION=1.7.1
-ARG WHISPER_CPP_ARCHIVE=whisper.cpp-${WHISPER_CPP_VERSION}-linux-x64.tar.gz
+ARG WHISPER_CPP_VERSION=v1.8.4
 ARG WHISPER_CPP_MODEL_URL=https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en.bin
 
-RUN mkdir -p /opt/whisper \
-	&& wget -qO /tmp/whisper.tar.gz \
-		https://github.com/ggerganov/whisper.cpp/releases/download/v${WHISPER_CPP_VERSION}/${WHISPER_CPP_ARCHIVE} \
-	&& tar -xzf /tmp/whisper.tar.gz -C /opt/whisper --strip-components=1 \
-	&& rm /tmp/whisper.tar.gz
+RUN git clone --depth 1 --branch ${WHISPER_CPP_VERSION} https://github.com/ggml-org/whisper.cpp.git /tmp/whisper.cpp \
+	&& cmake -S /tmp/whisper.cpp -B /tmp/whisper.cpp/build -DCMAKE_BUILD_TYPE=Release \
+	&& cmake --build /tmp/whisper.cpp/build --config Release -j 2 \
+	&& mkdir -p /opt/whisper \
+	&& cp /tmp/whisper.cpp/build/bin/whisper-cli /opt/whisper/whisper-cli \
+	&& rm -rf /tmp/whisper.cpp
 
 RUN mkdir -p /opt/models \
 	&& wget -qO /opt/models/ggml-base.en.bin ${WHISPER_CPP_MODEL_URL}
