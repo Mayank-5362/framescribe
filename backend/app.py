@@ -30,6 +30,11 @@ app.add_middleware(
 app.include_router(video_router)
 
 
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "FrameScribe backend is running"}
+
+
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}
