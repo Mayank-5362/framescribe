@@ -24,8 +24,13 @@ RUN git clone --depth 1 --branch ${WHISPER_CPP_VERSION} https://github.com/ggml-
 	&& cmake --build /tmp/whisper.cpp/build --config Release -j 2 \
 	&& mkdir -p /opt/whisper \
 	&& cp /tmp/whisper.cpp/build/bin/whisper-cli /opt/whisper/whisper-cli \
-	&& cp /tmp/whisper.cpp/build/src/libwhisper.so* /usr/local/lib/ \
-	&& cp /tmp/whisper.cpp/build/src/libggml*.so* /usr/local/lib/ \
+	&& sh -c 'set -e; \
+		whisper_lib=$(find /tmp/whisper.cpp/build -name "libwhisper*.so*" -type f -print -quit); \
+		ggml_lib=$(find /tmp/whisper.cpp/build -name "libggml*.so*" -type f -print -quit); \
+		if [ -z "$whisper_lib" ]; then echo "libwhisper shared library not found"; exit 1; fi; \
+		if [ -z "$ggml_lib" ]; then echo "libggml shared library not found"; exit 1; fi; \
+		find /tmp/whisper.cpp/build -name "libwhisper*.so*" -type f -exec cp {} /usr/local/lib/ \;; \
+		find /tmp/whisper.cpp/build -name "libggml*.so*" -type f -exec cp {} /usr/local/lib/ \;;' \
 	&& ldconfig \
 	&& rm -rf /tmp/whisper.cpp
 
