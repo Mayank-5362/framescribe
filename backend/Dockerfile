@@ -25,6 +25,7 @@ RUN git clone --depth 1 --branch ${WHISPER_CPP_VERSION} https://github.com/ggml-
 	&& mkdir -p /opt/whisper \
 	&& cp /tmp/whisper.cpp/build/bin/whisper-cli /opt/whisper/whisper-cli \
 	&& cp /tmp/whisper.cpp/build/src/libwhisper.so* /usr/local/lib/ \
+	&& cp /tmp/whisper.cpp/build/src/libggml*.so* /usr/local/lib/ \
 	&& ldconfig \
 	&& rm -rf /tmp/whisper.cpp
 
