@@ -1,3 +1,4 @@
+import os
 import queue
 import threading
 from pathlib import Path
@@ -107,5 +108,16 @@ def _worker():
             _job_queue.task_done()
 
 
-_worker_thread = threading.Thread(target=_worker, daemon=True)
-_worker_thread.start()
+def _worker_count() -> int:
+    try:
+        value = int(os.getenv("WORKER_COUNT", "1"))
+    except ValueError:
+        value = 1
+    return max(1, value)
+
+
+_worker_threads = []
+for _ in range(_worker_count()):
+    thread = threading.Thread(target=_worker, daemon=True)
+    thread.start()
+    _worker_threads.append(thread)
