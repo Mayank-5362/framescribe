@@ -99,7 +99,7 @@ def upload_and_sign(local_path: Path) -> str:
         response = storage.upload(
             remote_path,
             handle,
-            file_options={"content-type": content_type, "upsert": True},
+            file_options={"content-type": content_type, "upsert": "true"},
         )
 
     error_message = _get_error_message(response)
