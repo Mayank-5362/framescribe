@@ -78,10 +78,7 @@ def _create_signed_url(remote_path: str) -> str:
 def create_upload_url(filename: str) -> dict:
     storage = _get_client().storage.from_(SUPABASE_BUCKET)
     remote_path = _build_remote_path(filename, SUPABASE_INPUT_PREFIX)
-    response = storage.create_signed_upload_url(
-        remote_path,
-        SUPABASE_SIGNED_UPLOAD_EXPIRES_IN,
-    )
+    response = storage.create_signed_upload_url(remote_path)
     if isinstance(response, dict):
         url = response.get("signedURL") or response.get("signedUrl") or response.get("signed_url")
         path = response.get("path") or response.get("key") or remote_path
