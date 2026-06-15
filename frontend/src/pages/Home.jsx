@@ -340,7 +340,7 @@ export default function Home({ theme, setTheme }) {
                 Email support
               </a>
               <a
-                href="https://github.com/your-org/your-repo"
+                href="https://github.com/Mayank-5362/framescribe/tree/main"
                 className="btn-secondary"
                 target="_blank"
                 rel="noreferrer"
